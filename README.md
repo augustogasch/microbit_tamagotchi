@@ -1,2 +1,2 @@
 # microbit_tamagotchi
-pequeno projeto de "bichinho virtual" em micro:bit
+Pequeno projeto de "bichinho virtual" em micro:bit
