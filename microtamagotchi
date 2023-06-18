@@ -1,0 +1,257 @@
+# Código para implementar no micro:bit (python)
+# Autor: Antônio Augusto Gasch
+# Micro:bit, tamagotchi, python
+
+# Python code
+#
+#Variá´veis:
+tempo = 0
+morreu = 0
+ress_cont = 0
+
+#início da animação:
+basic.pause(1000)
+basic.show_leds("""
+  . . . . .
+  . . . . .
+  . . # . .
+  . . . . .
+  . . . . .
+  """)
+basic.pause(500)
+basic.show_leds("""
+  . . . . .
+  . # . # .
+  . # # # .
+  . . # . .
+  . . . . .
+  """)
+basic.pause(500)
+basic.show_leds("""
+  . # . # .
+  # # # # #
+  # # # # #
+  . # # # .
+  . . # . .
+  """)
+basic.pause(500)
+basic.show_string(" Oi!")
+for index in range(5):
+  basic.pause(800)
+  basic.show_leds("""
+    . # . # .
+    . . . . .
+    # . . . #
+    . # # # .
+    . . . . .
+    """)
+  basic.pause(800)
+  basic.show_leds("""
+    . . . . .
+    . # . # .
+    . . . . .
+    # . . . #
+    . # # # .
+    """)
+    
+#------------------------------
+#Definindo funções de interação
+#------------------------------
+
+# para o botão (a):
+
+def on_button_pressed_a(): 
+  global tempo
+  if tempo < 40:
+    tempo = 5
+    basic.show_leds("""
+      . . . . .
+      . # . # .
+      . . . . .
+      # . . . #
+      . # # # .
+      """)
+    basic.pause(300)
+    basic.show_leds("""
+      . # . # .
+      . . . . .
+      # . . . #
+      . # # # .
+      . . . . .
+      """)
+    basic.pause(1000)
+    basic.show_leds("""
+      . . . . .
+      . # . # .
+      . . . . .
+      # . . . #
+      . # # # .
+      """)
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+#---------------
+#Ao apertar (b):
+#---------------
+
+def on_button_pressed_b():
+  global tempo
+  if tempo >= 3 and tempo < 40:
+    tempo = 0
+    basic.show_leds("""
+      . # # # .
+      # # # # #
+      # # . # #
+      # # # # #
+      . # # # .
+      """)
+    basic.pause(300)
+    basic.show_leds("""
+      . # . . .
+      # # # . .
+      # # . # .
+      # # # # #
+      . # # # .
+      """)
+    basic.pause(300)
+    basic.show_leds("""
+      . . . . .
+      . . . . .
+      # # . . .
+      # # # # #
+      . # # # .
+      """)
+    basic.pause(300)
+    basic.show_leds("""
+      . . . . .
+      . . . . .
+      . . . . .
+      . . . . .
+      . # # # .
+      """)
+    basic.pause(300)
+    basic.show_leds("""
+      . . . . .
+      . . . . .
+      . . . . .
+      . . . . .
+      . . . . .
+      """)
+    basic.pause(500)
+    on_button_pressed_a()
+input.on_button_pressed(Button.B, on_button_pressed_b)
+
+#----------------
+#Ao apertar (ab):
+#----------------
+
+def on_button_pressed_ab():
+  global ress_cont
+  global morreu
+  global tempo
+  if morreu >= 1 and tempo >= 40:
+    basic.show_leds("""
+      . . . . .
+      . . . . .
+      . . # . .
+      . . . . .
+      . . . . .
+      """)
+    basic.pause(300)
+    basic.show_leds("""
+      . . . . .
+      . . # . .
+      . # # # .
+      . . # . .
+      . . . . .
+      """)
+    basic.pause(300)
+    basic.show_leds("""
+      # . # . #
+      . # # # .
+      # # # # #
+      . # # # .
+      # . # . #
+      """)
+    basic.pause(300)
+    basic.show_string(" vivo!")
+    ress_cont += 1
+    morreu = 0
+    tempo = 0
+  if tempo > 1:
+    basic.show_string("" + ress_cont) #contador de "nascimento"
+  on_button_pressed_a()
+input.on_button_pressed(Button.AB, on_button_pressed_ab)
+
+#definindo a função do loop
+def on_forever():
+  global tempo
+  global morreu
+  basic.pause(1000)
+  tempo += 1
+  if tempo == 20:
+    basic.show_leds("""
+      . . . . .
+      . # . # .
+      . . . . .
+      . # # # .
+      # . . . #
+      """)
+  if tempo == 30:
+    basic.show_leds("""
+      . . . . .
+      # # . # #
+      . . . . .
+      . # # # .
+      . . . . .
+      """)
+    morreu += 1
+  if tempo >= 40 and morreu >= 1:
+    basic.show_leds("""
+      . # # # .
+      # . # . #
+      # . # . #
+      . # # # .
+      . # # # .
+      """)
+basic.forever(on_forever)
+
+#--------------------------------------
+#função para quando sacudir o micro:bit
+def on_gesture_shake():
+  global tempo
+  if tempo < 40:
+    tempo = 10
+    basic.show_leds("""
+      . # . # .
+      . . . . .
+      . . # . .
+      . # . # .
+      . . # . .
+      """)
+    basic.pause(100)
+    basic.show_leds("""
+      . . # . #
+      . . . . .
+      . . . # .
+      . . # . #
+      . . . # .
+      """)
+    basic.pause(100)
+    basic.show_leds("""
+      # . # . .
+      . . . . .
+      . # . . .
+      # . # . .
+      . # . . .
+      """)
+    basic.pause(100)
+    basic.show_leds("""
+      . # . # .
+      . . . . .
+      . . # . .
+      . # . # .
+      . . # . .
+      """)
+    on_button_pressed_a()
+input.on_gesture(Gesture.Shake, on_gesture_shake)
+
